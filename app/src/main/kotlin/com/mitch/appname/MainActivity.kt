@@ -60,6 +60,7 @@ import com.mitch.appname.ui.designsystem.components.snackbars.AppSnackbarVisuals
 import com.mitch.appname.ui.designsystem.theme.custom.LocalPadding
 import com.mitch.appname.ui.designsystem.theme.custom.padding
 import com.mitch.appname.ui.rememberAppState
+import com.mitch.appname.ui.screens.bottombar.CustomBottomBar
 import com.mitch.appname.util.network.NetworkMonitor
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
@@ -119,7 +120,8 @@ class MainActivity : AppCompatActivity() {
 
                     Scaffold(
                         snackbarHost = { SwipeToDismissSnackbarHost(appState) },
-                        contentWindowInsets = WindowInsets(0)
+                        contentWindowInsets = WindowInsets(0),
+                        bottomBar = { CustomBottomBar(navController = appState.navController) }
                     ) { padding ->
                         Box(
                             modifier = Modifier

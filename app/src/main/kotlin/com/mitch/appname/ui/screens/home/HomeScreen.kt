@@ -18,21 +18,25 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mitch.appname.R
 import com.mitch.appname.domain.models.AppLanguage
 import com.mitch.appname.domain.models.AppTheme
+import com.mitch.appname.navigation.destinations.SecondScreenDestination
 import com.mitch.appname.ui.designsystem.components.loading.LoadingScreen
 import com.mitch.appname.ui.screens.home.components.LanguagePickerDialog
 import com.mitch.appname.ui.screens.home.components.ThemePickerDialog
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @RootNavGraph(start = true)
 @Destination
 @Composable
 fun HomeRoute(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    navigator: DestinationsNavigator
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreen(
+        navigator = navigator,
         uiState = uiState,
         onChangeTheme = viewModel::updateTheme,
         onChangeLanguage = viewModel::updateLanguage
@@ -41,6 +45,7 @@ fun HomeRoute(
 
 @Composable
 fun HomeScreen(
+    navigator: DestinationsNavigator,
     uiState: HomeUiState,
     onChangeTheme: (AppTheme) -> Unit,
     onChangeLanguage: (AppLanguage) -> Unit,
@@ -67,6 +72,11 @@ fun HomeScreen(
 
                 Button(onClick = { setActiveDialog(ActiveDialog.Theme) }) {
                     Text(text = stringResource(R.string.change_theme))
+                }
+
+
+                Button(onClick = {navigator.navigate(SecondScreenDestination())}) {
+                    Text(text = "Goto second screen")
                 }
 
                 when (activeDialog) {
@@ -99,24 +109,4 @@ sealed interface ActiveDialog {
     data object None : ActiveDialog
     data object Language : ActiveDialog
     data object Theme : ActiveDialog
-}
-
-@Preview
-@Composable
-private fun HomeScreenLoadingPreview() {
-    HomeScreen(
-        uiState = HomeUiState.Loading,
-        onChangeTheme = { },
-        onChangeLanguage = { }
-    )
-}
-
-@Preview
-@Composable
-private fun HomeScreenContentPreview() {
-    HomeScreen(
-        uiState = HomeUiState.Success(language = AppLanguage.English, theme = AppTheme.Light),
-        onChangeTheme = { },
-        onChangeLanguage = { }
-    )
 }

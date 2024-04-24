@@ -9,4 +9,6 @@
     <string name="cancel">Annulla</string>
     <string name="save">Salva</string>
     <string name="dismiss_snackbar_content_description">Chiudi messaggio</string>
+    <string name="bottom_home">Home</string>
+    <string name="home_second">Second</string>
 </resources>

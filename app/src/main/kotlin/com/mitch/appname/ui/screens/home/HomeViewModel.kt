@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,7 +48,9 @@ class HomeViewModel @Inject constructor(
 
     fun updateTheme(theme: AppTheme) {
         viewModelScope.launch {
+            Timber.d("Update theme")
             userSettingsRepository.setTheme(theme)
+            Timber.wtf("Change theme success")
         }
     }
 
